@@ -1,9 +1,9 @@
-/**
- * Author:    Christian Vadalà
- * Created:   03.06.2014
- * Version:   1.0.0 beta
- * 
- **/
+/*****************************************************************
+ * Author:        Christian Vadalà                               *
+ * Organization:  Work out Web                                   *
+ * Created:       03.06.2014                                     *
+ * Home Page:     https://github.com/work-out-web/tableauSolver  *
+ *****************************************************************/
 
 
 
