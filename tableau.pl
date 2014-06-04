@@ -15,11 +15,15 @@
 ?- solveTableau([(p & -q) v diamond (q)] ).
 ?- solveTableau([box diamond p, diamond -p  ] ).
 
-  La prima parte del risultato ha il seguente formato
-  idNodo : Formule {FormuleMarcate}* e rappresenta tutti i nodi del tableau
 
-  La seconda parte del risultato rappresenta gli archi ed ha il seguente formato
-  idNodoUscente -> idNodoEntrante
+  Nella prima parte del risultato sono presenti tutti i vertici del tableau. Il formato utilizzato per visualizzare questi dati è il seguente
+
+  idNodo : ListaFormule {ListaFormuleMarcate}*.
+
+  Nella seconda parte sono invece presenti tutti gli archi. Il formato utilizzato è il seguente idNodoUscente -> idNodoEntrante
+
+  La terza parte è invece una rappresentazione del grafo in formato DOT, graficamente visualizzabile tramite diverse librerie.
+  Un possibile tool online per visualizzare il grafo è questo: http://graphviz-dev.appspot.com
 
     
 
@@ -74,7 +78,8 @@ FUNTORI
 
 solveTableau(ListOfFormulas):-
 	completeTableau(tableau([(1, node(ListOfFormulas, []), false)], [], 2), TableauResult),
-	printTableau(TableauResult).
+	printTableau(TableauResult),
+	printTableauInDotFormat(TableauResult).
 
 /****************************************************/
 /* printTableau(tableau(Nodes, Edges, NextId))      */
@@ -83,10 +88,8 @@ solveTableau(ListOfFormulas):-
    
 printTableau(tableau(Nodes, Edges, _)):-
 	printNodes(Nodes),
-	printEdges(Edges),
-	%printNextId(NextId),
-	writeln('----------------------------------').
-
+	printEdges(Edges).
+	
 /****************************************************/
 /* printNodes(L)                                    */
 /****************************************************/
@@ -256,3 +259,79 @@ solveNode(_, node(F, _), Tableau, Tableau):-
 
 
 
+
+/**********************************************************/
+/* printTableauInDotFormat(tableau(Nodes, Edges, NextId)) */
+/*********************************************************/
+% stampa una rappresentazione del tableau in formato Dot
+   
+printTableauInDotFormat(tableau(Nodes, Edges, _)):-
+	writeln('---------------------------------------------------------------'),
+	writeln('- copia ed incolla su    http://graphviz-dev.appspot.com      -'),
+	writeln('- il seguente codice per visualizzare un disegno del tableau  -'),
+	writeln('---------------------------------------------------------------'),		
+	writeln('digraph g{'),
+	printNodesInDotFormat(Nodes),
+	printEdges(Edges),
+	writeln('}'),
+	writeln('---------------------------------------------------------------').
+
+/****************************************************/
+/* printNodesInDotFormat(L)                         */
+/****************************************************/
+% stampa una lista di terne di nodi in formato Dot
+
+printNodesInDotFormat([]).
+printNodesInDotFormat([(Id, node(F, FM), _)|Rest]):-
+	Id = 1,
+	write(Id),
+	write(' [label="'),
+	write(Id),
+	write(': '),
+	printFormulasInDotFormat(F),
+	write(' \\n '),
+	printMarkedFormulasInDotFormat(FM),
+	writeln('" shape="box" fillcolor="palegreen" style="filled,rounded"];'),
+	printNodesInDotFormat(Rest).
+
+printNodesInDotFormat([(Id, node(F, FM), _)|Rest]):-
+	write(Id),
+	write(' [label="'),
+	write(Id),
+	write(': '),
+	printFormulasInDotFormat(F),
+	write(' \\n '),
+	printMarkedFormulasInDotFormat(FM),
+	writeln('" shape="box" fillcolor="lightgray" style="filled,rounded"];'),
+	printNodesInDotFormat(Rest).
+
+/****************************************************/
+/* printFormulasInDotFormat(L)                      */
+/****************************************************/
+%stampa un elenco di formule in successione
+
+printFormulasInDotFormat([]).
+printFormulasInDotFormat([F]):- !,
+	write(F).
+printFormulasInDotFormat([F|Rest]):-
+	write(F),
+	write(', '),
+	printFormulasInDotFormat(Rest).
+
+
+/****************************************************/
+/* printMarkedFormulasInDotFormat(L)                */
+/****************************************************/
+%stampa un elenco di formule in successione
+
+printMarkedFormulasInDotFormat([]).
+printMarkedFormulasInDotFormat([F]):- !,
+	write('('),
+	write(F),
+	write(')* ').
+
+printMarkedFormulasInDotFormat([F|Rest]):-
+	write('('),
+	write(F),
+	write(')*, '),
+	printMarkedFormulasInDotFormat(Rest).
