@@ -13,7 +13,7 @@
   ESEMPIO DI UTILIZZO
   
 ?- solveTableau([(p & -q) v diamond (q)] ).
-?  solveTableau([box (diamond p), diamond -p  ] ).
+?- solveTableau([box diamond p, diamond -p  ] ).
 
   La prima parte del risultato ha il seguente formato
   idNodo : Formule {FormuleMarcate}* e rappresenta tutti i nodi del tableau
@@ -59,15 +59,11 @@ FUNTORI
 
 
 
-
-
-
 :- op(400, xfy, [&]).
 :- op(450, xfy, [v]).
-:- op(280, fx, [-]).
-:- op(300, fx, [box]).
-:- op(330, fx, [diamond]).
-:- op(360, fx, [next]).
+:- op(300, fy, [box]).
+:- op(300, fy, [diamond]).
+:- op(300, fy, [next]).
 
 
 
