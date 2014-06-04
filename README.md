@@ -2,22 +2,21 @@ tableauSolver
 =============
 
 
-tableauSolver è un programma scritto in Prolog per la creazione di tableau, partendo da un insieme di formule della logica temporale.
-
+*tableauSolver* è un programma scritto in Prolog che, partendo da un insieme di formule della logica temporale, genera il grafo del tableau corrispondente.
 
 
 Alcuni esempi:
 
-?- solveTableau([(p & -q) v diamond (q)] ).
+`?- solveTableau([(p & -q) v diamond (q)] ).`
 
 
-?- solveTableau([box diamond p, diamond -p  ] ).
+`?- solveTableau([box diamond p, diamond -p  ] ).`
 
 
 
 
 Esempio di risultato:
-
+````
   9:[p,-q] {[p& -q,p& -q v diamond q]}* 
   2:[p& -q] {[p& -q v diamond q]}* 
   4:[q] {[diamond q,p& -q v diamond q]}* 
@@ -36,7 +35,7 @@ Esempio di risultato:
   3 -> 4
   1 -> 3
   1 -> 2
-
+````
 
   Nella prima parte del risultato sono presenti tutti i vertici del tableau. Il formato utilizzato per visualizzare questi dati è il seguente `idNodo : ListaFormule {ListaFormuleMarcate}*`. Nella seconda parte sono invece presenti tutti gli archi. Il formato utilizzato è il seguente
   `idNodoUscente -> idNodoEntrante`
