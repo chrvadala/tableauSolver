@@ -4,51 +4,47 @@
  * Created:       03.06.2014                                     *
  * Home Page:     https://github.com/work-out-web/tableauSolver  *
  *****************************************************************/
+% ESEMPI
+% ?- solve([(p & -q) v diamond q] ).
+% ?- solve([box diamond p, diamond -p  ] ).
+%
 
+% SIMBOLI SUPPORTATI
+% AND => (A & B)
+% OR  => (A v B)
+% NOT => (-A)
+% BOX => (box A) 
+% DIAMOND => (diamond A)
+% NEXT => (next A)
 
+% ESEMPIO DI TABLEAU GENERATO (NOTA: VIENE ANCHE GENERATO UN RISULTATO GRAFICAMENTE RAPPRESENTABILE)
+%  9:[p,-q] {[p& -q,p& -q v diamond q]}* 
+%  2:[p& -q] {[p& -q v diamond q]}* 
+%  4:[q] {[diamond q,p& -q v diamond q]}* 
+%  7:[q] {[diamond q]}* 
+%  8:[next diamond q] {[diamond q]}* 
+%  6:[diamond q] {[]}* 
+%  5:[next diamond q] {[diamond q,p& -q v diamond q]}* 
+%  3:[diamond q] {[p& -q v diamond q]}* 
+%  1:[p& -q v diamond q] {[]}* 
+%  2 -> 9
+%  8 -> 6
+%  6 -> 8
+%  6 -> 7
+%  5 -> 6
+%  3 -> 5
+%  3 -> 4
+%  1 -> 3
+%  1 -> 2
 
+% INTERPRETAZIONE RISULTATO
+% Nella prima parte del risultato sono presenti tutti i vertici del tableau. Il formato utilizzato per visualizzare questi dati è il seguente idNodo : ListaFormule {ListaFormuleMarcate}*.
 
-/*
+% Nella seconda parte sono invece presenti tutti gli archi. Il formato utilizzato è il seguente idNodoUscente -> idNodoEntrante
 
-  ESEMPIO DI UTILIZZO
-  
-?- solveTableau([(p & -q) v diamond (q)] ).
-?- solveTableau([box diamond p, diamond -p  ] ).
-
-
-  Nella prima parte del risultato sono presenti tutti i vertici del tableau. Il formato utilizzato per visualizzare questi dati è il seguente
-
-  idNodo : ListaFormule {ListaFormuleMarcate}*.
-
-  Nella seconda parte sono invece presenti tutti gli archi. Il formato utilizzato è il seguente idNodoUscente -> idNodoEntrante
-
-  La terza parte è invece una rappresentazione del grafo in formato DOT, graficamente visualizzabile tramite diverse librerie.
-  Un possibile tool online per visualizzare il grafo è questo: http://graphviz-dev.appspot.com
-
-    
-
-  RISPOSTA
-  9:[p,-q] {[p& -q,p& -q v diamond q]}* 
-  2:[p& -q] {[p& -q v diamond q]}* 
-  4:[q] {[diamond q,p& -q v diamond q]}* 
-  7:[q] {[diamond q]}* 
-  8:[next diamond q] {[diamond q]}* 
-  6:[diamond q] {[]}* 
-  5:[next diamond q] {[diamond q,p& -q v diamond q]}* 
-  3:[diamond q] {[p& -q v diamond q]}* 
-  1:[p& -q v diamond q] {[]}* 
-  2 -> 9
-  8 -> 6
-  6 -> 8
-  6 -> 7
-  5 -> 6
-  3 -> 5
-  3 -> 4
-  1 -> 3
-  1 -> 2
-*/
+%  La terza parte è invece una rappresentazione del grafo in formato DOT, graficamente visualizzabile tramite diverse librerie.
+%  Un possibile tool online per visualizzare il grafo è questo: http://graphviz-dev.appspot.com
  
-
 
 
 /*
@@ -62,6 +58,9 @@ FUNTORI
 */
 
 
+/*********************************************/
+/* dichiarazione priorità operatori          */
+/*********************************************/
 
 :- op(400, xfy, [&]).
 :- op(450, xfy, [v]).
@@ -69,7 +68,13 @@ FUNTORI
 :- op(300, fy, [diamond]).
 :- op(300, fy, [next]).
 
+/*********************************************/
+/* solve(+FormulasList)                      */
+/*********************************************/
+% alias di solveTableau
 
+solve(ListOfFormulas) :-
+	solveTableau(ListOfFormulas).
 
 /****************************************************/
 /* solveTableau(+FormulasList)                      */
@@ -77,9 +82,16 @@ FUNTORI
 % risolve il tableau mostrando a schermo il risultato
 
 solveTableau(ListOfFormulas):-
-	completeTableau(tableau([(1, node(ListOfFormulas, []), false)], [], 2), TableauResult),
+	solveTableauWrapper(ListOfFormulas, TableauResult),
 	printTableau(TableauResult),
 	printTableauInDotFormat(TableauResult).
+
+/****************************************************/
+/* solveTableauWrapper(+FormulasList, TableauResult)*/
+/****************************************************/
+% inizializza la struttura dati e risolve il tableau
+solveTableauWrapper(ListOfFormulas, TableauResult):-
+	completeTableau(tableau([(1, node(ListOfFormulas, []), false)], [], 2), TableauResult).
 
 /****************************************************/
 /* printTableau(tableau(Nodes, Edges, NextId))      */
