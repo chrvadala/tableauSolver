@@ -62,23 +62,36 @@ INFO: E' possibile trasformare il risultato testuale del programma in un disegno
 - il seguente codice per visualizzare un disegno del tableau  -
 ---------------------------------------------------------------
 digraph g{
-9 [label="9: p, -q \n (p& -q)*, (p& -q v diamond q)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
-2 [label="2: p& -q \n (p& -q v diamond q)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
-4 [label="4: q \n (diamond q)*, (p& -q v diamond q)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
-7 [label="7: q \n (diamond q)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
-8 [label="8: next diamond q \n (diamond q)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
-6 [label="6: diamond q \n " shape="box" fillcolor="lightgray" style="filled,rounded"];
-5 [label="5: next diamond q \n (diamond q)*, (p& -q v diamond q)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
-3 [label="3: diamond q \n (p& -q v diamond q)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
-1 [label="1: p& -q v diamond q \n " shape="box" fillcolor="palegreen" style="filled,rounded"];
-2 -> 9
-8 -> 6
-6 -> 8
+13 [label="13: -p, p, next box diamond p \n (diamond-p)*, (diamond p)*, (box diamond p)* " shape="box" fillcolor="orange" style="filled"];
+14 [label="14: next diamond-p, p, next box diamond p \n (diamond-p)*, (diamond p)*, (box diamond p)* " shape="box" fillcolor="orange" style="filled"];
+3 [label="3: p, next box diamond p, diamond-p \n (diamond p)*, (box diamond p)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
+12 [label="12: box diamond p \n " shape="box" fillcolor="lightgray" style="filled,rounded"];
+10 [label="10: p, next box diamond p \n (diamond p)*, (box diamond p)* " shape="box" fillcolor="orange" style="filled"];
+11 [label="11: next diamond p, next box diamond p \n (diamond p)*, (box diamond p)* " shape="box" fillcolor="orange" style="filled"];
+9 [label="9: next box diamond p, diamond p \n (box diamond p)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
+8 [label="8: diamond p, box diamond p \n " shape="box" fillcolor="lightgray" style="filled,rounded"];
+5 [label="5: -p, next diamond p, next box diamond p \n (diamond-p)*, (diamond p)*, (box diamond p)* " shape="box" fillcolor="orange" style="filled"];
+7 [label="7: diamond-p, diamond p, box diamond p \n " shape="box" fillcolor="lightgray" style="filled,rounded"];
+6 [label="6: next diamond-p, next diamond p, next box diamond p \n (diamond-p)*, (diamond p)*, (box diamond p)* " shape="box" fillcolor="orange" style="filled"];
+4 [label="4: next diamond p, next box diamond p, diamond-p \n (diamond p)*, (box diamond p)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
+2 [label="2: diamond p, next box diamond p, diamond-p \n (box diamond p)* " shape="box" fillcolor="lightgray" style="filled,rounded"];
+1 [label="1: box diamond p, diamond-p \n " shape="box" fillcolor="cornflowerblue" style="filled,rounded"];
+14 -> 1
+3 -> 14
+3 -> 13
+12 -> 9
+10 -> 12
+11 -> 8
+9 -> 11
+9 -> 10
+8 -> 9
+5 -> 8
+7 -> 2
 6 -> 7
-5 -> 6
-3 -> 5
-3 -> 4
-1 -> 3
+4 -> 6
+4 -> 5
+2 -> 4
+2 -> 3
 1 -> 2
 }
 ````
