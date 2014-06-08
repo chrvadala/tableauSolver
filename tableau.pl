@@ -204,9 +204,19 @@ listOneEqualToSecond([], []).
 listOneEqualToSecond([X|Rest1], L2) :-
 	delete(L2, X, NewL2),
 	listOneEqualToSecond(Rest1, NewL2).
-	
-	
-	
+
+/*****************************************************/
+/* removeDuplicatesList(?List, ?ListResult)           */
+/*****************************************************/
+% rimuove duplicati da una lista 
+
+removeDuplicatesList([], []).
+removeDuplicatesList([X|Rest], Result) :-
+	member(X, Rest), !,
+	removeDuplicatesList(Rest, Result).
+
+removeDuplicatesList([X|Rest], [X|SubResult]) :-
+	removeDuplicatesList(Rest, SubResult).	
 
 
 /*****************************************************/
@@ -223,31 +233,37 @@ solveNode(_, node(F, _), Tableau, Tableau):-
 solveNode(Id, node(F, FM), Tableau, TableauResult):-
 	member(Formula, F),
 	Formula = A & B, !, 
-	delete(F, Formula, NewF),	
-	addNode(Tableau, node([A,B|NewF],[Formula|FM]), Id, TableauResult).
+	delete(F, Formula, NewF),
+	removeDuplicatesList([A,B|NewF], SolvedNewF),
+	addNode(Tableau, node(SolvedNewF, [Formula|FM]), Id, TableauResult).
 
 % OR
 solveNode(Id, node(F, FM), Tableau, TableauResult):-
 	member(Formula, F),
 	Formula = A v B, !, 
-	delete(F, Formula, NewF),	
-	addNode(Tableau, node([A|NewF],[Formula|FM]), Id, TableauPartialResult),
-	addNode(TableauPartialResult, node([B|NewF],[Formula|FM]), Id, TableauResult).
+	delete(F, Formula, NewF),
+	removeDuplicatesList([A|NewF], SolvedNewFA),
+	removeDuplicatesList([B|NewF], SolvedNewFB),	
+	addNode(Tableau, node(SolvedNewFA,[Formula|FM]), Id, TableauPartialResult),
+	addNode(TableauPartialResult, node(SolvedNewFB,[Formula|FM]), Id, TableauResult).
 
 % BOX
 solveNode(Id, node(F, FM), Tableau, TableauResult):-
 	member(Formula, F),
 	Formula = box A, !, 
-	delete(F, Formula, NewF),	
-	addNode(Tableau, node([A, next box A|NewF],[Formula|FM]), Id, TableauResult).
+	delete(F, Formula, NewF),
+	removeDuplicatesList([A, next box A|NewF], SolvedNewF),
+	addNode(Tableau, node(SolvedNewF,[Formula|FM]), Id, TableauResult).
 
 % DIAMOND
 solveNode(Id, node(F, FM), Tableau, TableauResult):-
 	member(Formula, F),
 	Formula = diamond A, !, 
-	delete(F, Formula, NewF),	
-	addNode(Tableau, node([A|NewF],[Formula|FM]), Id, TableauPartialResult),
-	addNode(TableauPartialResult, node([next diamond A|NewF],[Formula|FM]), Id, TableauResult).
+	delete(F, Formula, NewF),
+	removeDuplicatesList([A|NewF], SolvedNewFA),
+	removeDuplicatesList([next diamond A|NewF], SolvedNewFRest),			     
+	addNode(Tableau, node(SolvedNewFA,[Formula|FM]), Id, TableauPartialResult),
+	addNode(TableauPartialResult, node(SolvedNewFRest,[Formula|FM]), Id, TableauResult).
 
 
 % NEXT
