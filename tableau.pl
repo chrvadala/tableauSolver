@@ -176,6 +176,17 @@ nextStatus([next A|Rest], [A | Result]):- !,
 	nextStatus(Rest, Result).
 nextStatus([_|Rest], Result) :-
 	nextStatus(Rest, Result).
+
+/*****************************************************/
+/* isStatus(?Node)                                   */
+/*****************************************************/
+% verifica se il nodo passato è uno stato
+
+isStatus(node(F, _)) :-
+	\+ member(_ & _, F),
+	\+ member(_ v _, F),
+	\+ member(box _, F),
+	\+ member(diamond _, F).
 	
 /*****************************************************/
 /* equalNode(Node1, Node2)                           */
@@ -305,6 +316,8 @@ printTableauInDotFormat(tableau(Nodes, Edges, _)):-
 % stampa una lista di terne di nodi in formato Dot
 
 printNodesInDotFormat([]).
+
+% root
 printNodesInDotFormat([(Id, node(F, FM), _)|Rest]):-
 	Id = 1, !,
 	write(Id),
@@ -314,7 +327,20 @@ printNodesInDotFormat([(Id, node(F, FM), _)|Rest]):-
 	printFormulasInDotFormat(F),
 	write(' \\n '),
 	printMarkedFormulasInDotFormat(FM),
-	writeln('" shape="box" fillcolor="palegreen" style="filled,rounded"];'),
+	writeln('" shape="box" fillcolor="cornflowerblue" style="filled,rounded"];'),
+	printNodesInDotFormat(Rest).
+
+% status
+printNodesInDotFormat([(Id, node(F, FM), _)|Rest]):-
+	isStatus(node(F, FM)), !,
+	write(Id),
+	write(' [label="'),
+	write(Id),
+	write(': '),
+	printFormulasInDotFormat(F),
+	write(' \\n '),
+	printMarkedFormulasInDotFormat(FM),
+	writeln('" shape="box" fillcolor="orange" style="filled"];'),
 	printNodesInDotFormat(Rest).
 
 printNodesInDotFormat([(Id, node(F, FM), _)|Rest]):-
