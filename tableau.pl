@@ -218,7 +218,7 @@ removeDuplicatesList([X|Rest], [X|SubResult]) :-
 % LETTERALE NEGATO
 solveNode(_, node(F, _), Tableau, Tableau):-
 	member( A, F),
-	member(-A, F).
+	member(-A, F), !.
 
 % AND
 solveNode(Id, node(F, FM), Tableau, TableauResult):-
@@ -267,7 +267,7 @@ solveNode(Id, node(F, _), Tableau, TableauResult):-
     \+ member(_ v _, F),
     \+ member(box _, F),
     \+ member(diamond _, F),
-    member(next _, F),
+    member(next _, F), !,
     nextStatus(F, NewF),
     addNode(Tableau, node(NewF, []), Id, TableauResult).
 
@@ -306,7 +306,7 @@ printTableauInDotFormat(tableau(Nodes, Edges, _)):-
 
 printNodesInDotFormat([]).
 printNodesInDotFormat([(Id, node(F, FM), _)|Rest]):-
-	Id = 1,
+	Id = 1, !,
 	write(Id),
 	write(' [label="'),
 	write(Id),
