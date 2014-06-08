@@ -235,7 +235,8 @@ solveNode(Id, node(F, FM), Tableau, TableauResult):-
 	Formula = A & B, !, 
 	delete(F, Formula, NewF),
 	removeDuplicatesList([A,B|NewF], SolvedNewF),
-	addNode(Tableau, node(SolvedNewF, [Formula|FM]), Id, TableauResult).
+	removeDuplicatesList([Formula|FM], NewFM),
+	addNode(Tableau, node(SolvedNewF, NewFM), Id, TableauResult).
 
 % OR
 solveNode(Id, node(F, FM), Tableau, TableauResult):-
@@ -243,9 +244,10 @@ solveNode(Id, node(F, FM), Tableau, TableauResult):-
 	Formula = A v B, !, 
 	delete(F, Formula, NewF),
 	removeDuplicatesList([A|NewF], SolvedNewFA),
-	removeDuplicatesList([B|NewF], SolvedNewFB),	
-	addNode(Tableau, node(SolvedNewFA,[Formula|FM]), Id, TableauPartialResult),
-	addNode(TableauPartialResult, node(SolvedNewFB,[Formula|FM]), Id, TableauResult).
+	removeDuplicatesList([B|NewF], SolvedNewFB),
+	removeDuplicatesList([Formula|FM], NewFM),
+	addNode(Tableau, node(SolvedNewFA, NewFM), Id, TableauPartialResult),
+	addNode(TableauPartialResult, node(SolvedNewFB, NewFM), Id, TableauResult).
 
 % BOX
 solveNode(Id, node(F, FM), Tableau, TableauResult):-
@@ -253,7 +255,8 @@ solveNode(Id, node(F, FM), Tableau, TableauResult):-
 	Formula = box A, !, 
 	delete(F, Formula, NewF),
 	removeDuplicatesList([A, next box A|NewF], SolvedNewF),
-	addNode(Tableau, node(SolvedNewF,[Formula|FM]), Id, TableauResult).
+	removeDuplicatesList([Formula|FM], NewFM),
+	addNode(Tableau, node(SolvedNewF, NewFM), Id, TableauResult).
 
 % DIAMOND
 solveNode(Id, node(F, FM), Tableau, TableauResult):-
@@ -261,9 +264,10 @@ solveNode(Id, node(F, FM), Tableau, TableauResult):-
 	Formula = diamond A, !, 
 	delete(F, Formula, NewF),
 	removeDuplicatesList([A|NewF], SolvedNewFA),
-	removeDuplicatesList([next diamond A|NewF], SolvedNewFRest),			     
-	addNode(Tableau, node(SolvedNewFA,[Formula|FM]), Id, TableauPartialResult),
-	addNode(TableauPartialResult, node(SolvedNewFRest,[Formula|FM]), Id, TableauResult).
+	removeDuplicatesList([next diamond A|NewF], SolvedNewFRest),
+	removeDuplicatesList([Formula|FM], NewFM),
+	addNode(Tableau, node(SolvedNewFA, NewFM), Id, TableauPartialResult),
+	addNode(TableauPartialResult, node(SolvedNewFRest, NewFM), Id, TableauResult).
 
 
 % NEXT
