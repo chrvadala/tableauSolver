@@ -189,21 +189,12 @@ equalNode(node(F1, FM1), node(F2, FM2)):-
 /*****************************************************/
 /* equalList(L1, L2)                                 */
 /*****************************************************/
-% verifica se due liste hanno gli stessi elementi (NOTA: prolog considera uguali due liste che hanno gli stessi elementi nello stesso ordine)
+% verifica se due liste hanno gli stessi elementi
+% NOTA: prolog considera uguali due liste solo se gli elementi si trovano nel medesimo ordine
 
 equalList(L1, L2):-
-	listOneEqualToSecond(L1, L2),
-	listOneEqualToSecond(L2, L1).
-
-/*****************************************************/
-/* listOneEqualToSecond(L1, L2)                      */
-/*****************************************************/
-% verifica se tutti gli elementi della prima lista si trovano nella seconda
-
-listOneEqualToSecond([], []).
-listOneEqualToSecond([X|Rest1], L2) :-
-	delete(L2, X, NewL2),
-	listOneEqualToSecond(Rest1, NewL2).
+	subset(L1, L2),
+	subset(L2, L1).
 
 /*****************************************************/
 /* removeDuplicatesList(?List, ?ListResult)           */
