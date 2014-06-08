@@ -5,21 +5,24 @@
 INFO: E' possibile trasformare il risultato testuale del programma in un disegno, semplicemente copiando il risultato restituito in formato DOT sul visualizzatore online di file DOT http://graphviz-dev.appspot.com
 
 
-## ESEMPI
+### ESEMPI
 ````
  ?- solve([(p & -q) v diamond q] ).
  ?- solve([box diamond p, diamond -p  ] ).
 ````
 
-## SIMBOLI SUPPORTATI
+### SIMBOLI SUPPORTATI
+````
  AND => (A & B)
  OR  => (A v B)
  NOT => (-A)
  BOX => (box A) 
  DIAMOND => (diamond A)
  NEXT => (next A)
+````
 
-## ESEMPIO DI TABLEAU GENERATO (NOTA: VIENE ANCHE GENERATO UN RISULTATO GRAFICAMENTE RAPPRESENTABILE)
+### ESEMPIO DI TABLEAU GENERATO
+
 ````
   9:[p,-q] {[p& -q,p& -q v diamond q]}* 
   2:[p& -q] {[p& -q v diamond q]}* 
@@ -41,7 +44,7 @@ INFO: E' possibile trasformare il risultato testuale del programma in un disegno
   1 -> 2
 ````
 
- INTERPRETAZIONE RISULTATO
+### INTERPRETAZIONE RISULTATO
  Nella prima parte del risultato sono presenti tutti i vertici del tableau. Il formato utilizzato per visualizzare questi dati è il seguente `idNodo : ListaFormule {ListaFormuleMarcate}*`.
 
  Nella seconda parte sono invece presenti tutti gli archi. Il formato utilizzato è il seguente `idNodoUscente -> idNodoEntrante`
@@ -52,7 +55,7 @@ INFO: E' possibile trasformare il risultato testuale del programma in un disegno
 
 
 
-## Esempio di tableau generato graficamente:
+### Esempio di tableau generato graficamente:
 ````
 ---------------------------------------------------------------
 - copia ed incolla su    http://graphviz-dev.appspot.com      -
