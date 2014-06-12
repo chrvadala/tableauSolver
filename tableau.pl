@@ -332,7 +332,7 @@ printNodesInDotFormat([(Id, node([], FM), _)|Rest]):- !,
 	write(': true '),
 	write(' \\n '),
 	printMarkedFormulasInDotFormat(FM),
-	writeln('" shape="box" fillcolor="lightgray" style="filled,rounded"];'),
+	writeln('" shape="box" fillcolor="orange" style="filled"];'),
 	printNodesInDotFormat(Rest).
 
 % status
