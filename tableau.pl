@@ -278,18 +278,11 @@ solveNode(Id, node(F, _), Tableau, TableauResult):-
     \+ member(_ v _, F),
     \+ member(box _, F),
     \+ member(diamond _, F),
-    member(next _, F), !,
     nextStatus(F, NewF),
     addNode(Tableau, node(NewF, []), Id, TableauResult).
 
 
-% SOLO LETTERALI
-solveNode(_, node(F, _), Tableau, Tableau):-
-	\+ member(_ & _, F),
-	\+ member(_ v _, F),
-	\+ member(box _, F),
-	\+ member(diamond _, F),
-	\+ member(next _, F).
+
 
 
 
@@ -328,6 +321,17 @@ printNodesInDotFormat([(Id, node(F, FM), _)|Rest]):-
 	write(' \\n '),
 	printMarkedFormulasInDotFormat(FM),
 	writeln('" shape="box" fillcolor="cornflowerblue" style="filled,rounded"];'),
+	printNodesInDotFormat(Rest).
+
+%true
+printNodesInDotFormat([(Id, node([], FM), _)|Rest]):- !,
+	write(Id),
+	write(' [label="'),
+	write(Id),
+	write(': true '),
+	write(' \\n '),
+	printMarkedFormulasInDotFormat(FM),
+	writeln('" shape="box" fillcolor="lightgray" style="filled,rounded"];'),
 	printNodesInDotFormat(Rest).
 
 % status
