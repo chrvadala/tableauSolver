@@ -186,7 +186,8 @@ isStatus(node(F, _)) :-
 	\+ member(_ & _, F),
 	\+ member(_ v _, F),
 	\+ member(box _, F),
-	\+ member(diamond _, F).
+	\+ member(diamond _, F),
+	\+ (member(A, F), member(-A, F)).
 	
 /*****************************************************/
 /* equalNode(Node1, Node2)                           */
