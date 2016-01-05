@@ -2,7 +2,7 @@
  * Author:        Christian Vadalà                               *
  * Organization:  Work out Web                                   *
  * Created:       03.06.2014                                     *
- * Home Page:     https://github.com/work-out-web/tableauSolver  *
+ * Home Page:     https://github.com/chrvadala/tableauSolver     *
  *****************************************************************/
 % ESEMPI
 % ?- solve([(p & -q) v diamond q] ).
@@ -43,7 +43,7 @@
 % Nella seconda parte sono invece presenti tutti gli archi. Il formato utilizzato è il seguente idNodoUscente -> idNodoEntrante
 
 %  La terza parte è invece una rappresentazione del grafo in formato DOT, graficamente visualizzabile tramite diverse librerie.
-%  Un possibile tool online per visualizzare il grafo è questo: http://graphviz-dev.appspot.com
+%  Un possibile tool online per visualizzare il grafo è questo: http://www.webgraphviz.com/
  
 
 
@@ -295,7 +295,7 @@ solveNode(Id, node(F, _), Tableau, TableauResult):-
    
 printTableauInDotFormat(tableau(Nodes, Edges, _)):-
 	writeln('---------------------------------------------------------------'),
-	writeln('- copia ed incolla su    http://graphviz-dev.appspot.com      -'),
+	writeln('- copia ed incolla su    http://www.webgraphviz.com/          -'),
 	writeln('- il seguente codice per visualizzare un disegno del tableau  -'),
 	writeln('---------------------------------------------------------------'),		
 	writeln('digraph g{'),
