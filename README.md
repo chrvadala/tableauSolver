@@ -2,7 +2,7 @@
 
 *tableauSolver* è un programma scritto in Prolog che, partendo da un insieme di formule della logica temporale, genera il grafo del tableau corrispondente.
 
-INFO: E' possibile trasformare il risultato testuale del programma in un disegno, semplicemente copiando il risultato restituito in formato DOT sul visualizzatore online di file DOT http://graphviz-dev.appspot.com
+INFO: E' possibile trasformare il risultato testuale del programma in un disegno, semplicemente copiando il risultato restituito in formato DOT sul visualizzatore online di file DOT http://www.webgraphviz.com/
 
 
 ### ESEMPI
@@ -50,7 +50,7 @@ INFO: E' possibile trasformare il risultato testuale del programma in un disegno
  Nella seconda parte sono invece presenti tutti gli archi. Il formato utilizzato è il seguente `idNodoUscente -> idNodoEntrante`
 
   La terza parte è invece una rappresentazione del grafo in formato DOT, graficamente visualizzabile tramite diverse librerie.
-  Un possibile tool online per visualizzare il grafo è questo: http://graphviz-dev.appspot.com
+  Un possibile tool online per visualizzare il grafo è questo: http://www.webgraphviz.com/
  
 
 
@@ -58,7 +58,7 @@ INFO: E' possibile trasformare il risultato testuale del programma in un disegno
 ### Esempio di tableau generato graficamente:
 ````
 ---------------------------------------------------------------
-- copia ed incolla su    http://graphviz-dev.appspot.com      -
+- copia ed incolla su    http://www.webgraphviz.com/          -
 - il seguente codice per visualizzare un disegno del tableau  -
 ---------------------------------------------------------------
 digraph g{
